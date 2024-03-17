@@ -39,5 +39,5 @@
 }
 
 .gallery-link:hover {
-  cursor: zoom-in;
+  cursor: -moz-zoom-in;
 }
