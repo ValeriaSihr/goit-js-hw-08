@@ -66,61 +66,38 @@ const images = [
 
 const container = document.querySelector(".gallery");
 
-console.log(container);
-
 const createMarkup = (items) => {
     return items
         .map(
             (item) => `<li class="gallery-item">
-//     <a class="gallery-link" href="${item.original}">
-//         <img
-//             class="gallery-image"
-//             src="${item.preview}"
-//             data-source="${item.original}"
-//             alt="${item.description}"
-//         />
-//     </a>
-// </li>`
+                 <a class="gallery-link" href="${item.original}">
+                     <img
+                         class="gallery-image"
+                         src="${item.preview}"
+                         data-source="${item.original}"
+                         alt="${item.description}"
+                     />
+                 </a>
+             </li>`
         )
         .join("");
 };
+
 container.insertAdjacentHTML("beforeend", createMarkup(images));
+container.addEventListener("click", handleClick);
 
-// const ulGallery = document.querySelector(".gallery");
+function handleClick(event) {
+    event.preventDefault();
 
-// ulGallery.insertAdjacentHTML("beforeend", createMarkup(images));
+    const clickedImage = event.target.closest(".gallery-image");
+    if (!clickedImage) return;
 
-// function createMarkup(items) {
-//     return items
-//         .map(
-//             (item) =>
-//                 `<li class="gallery-item">
-//     <a class="gallery-link" href="${item.original}">
-//         <img
-//             class="gallery-image"
-//             src="${item.preview}"
-//             data-source="${item.original}"
-//             alt="${item.description}"
-//         />
-//     </a>
-// </li>`
-//         )
-//         .join("");
-// }
-// gallery.innerHTML = galleryMarkup;
+    const originalUrl = clickedImage.dataset.source;
+    const description = clickedImage.alt;
 
-// gallery.addEventListener("click", (event) => {
-//     event.stopPropagation();
-
-//     if (event.target.nodeName !== "IMG") {
-//         return;
-//     }
-
-//     const largeImageUrl = event.target.dataset.source;
-
-//     const instance = basicLightbox.create(`
-//     <img src="${largeImageUrl}" width="800" height="600">
-//   `);
-
-//     instance.show();
-// });
+    const instance = basicLightbox.create(`
+        <div class="modal">
+            <img src="${originalUrl}" alt="${description}">
+        </div>`);
+    instance.show();
+}
